@@ -1,0 +1,68 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ShareXMac.App.ViewModels"
+             xmlns:views="using:ShareXMac.App.Views"
+             x:Class="ShareXMac.App.Views.HistoryView"
+             x:DataType="vm:HistoryViewModel">
+
+    <DockPanel>
+        <!-- Search bar at top -->
+        <TextBox DockPanel.Dock="Top"
+                 Text="{Binding SearchText, Mode=TwoWay}"
+                 Watermark="Search captures..."
+                 Height="40" Margin="16,16,16,0" />
+
+        <!-- Filter chips -->
+        <ItemsControl DockPanel.Dock="Top"
+                      ItemsSource="{Binding ModeFilters}"
+                      Margin="16,8,16,0">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ToggleButton Content="{Binding}"
+                                  Margin="0,0,8,0"
+                                  Padding="12,4"
+                                  CornerRadius="12" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <!-- History grid or empty state -->
+        <Panel>
+            <!-- Empty state (shown when Records.Count == 0) -->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
+                        IsVisible="{Binding !Records.Count}">
+                <TextBlock Text="No captures yet"
+                           FontSize="16" FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,8" />
+                <TextBlock Text="Use the menu bar icon or press Cmd+Shift+5 to capture your first screenshot."
+                           Foreground="#999999"
+                           HorizontalAlignment="Center"
+                           TextWrapping="Wrap"
+                           MaxWidth="300" />
+            </StackPanel>
+
+            <!-- History grid (3 columns) -->
+            <ScrollViewer IsVisible="{Binding Records.Count}">
+                <ItemsControl ItemsSource="{Binding Records}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="3" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <views:HistoryItemCard Margin="4"
+                                                   DataContext="{Binding}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Panel>
+    </DockPanel>
+</UserControl>

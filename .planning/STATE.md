@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to execute
-stopped_at: Completed 01-01-PLAN.md
-last_updated: "2026-03-25T12:11:09.358Z"
+stopped_at: Completed 01-02-PLAN.md
+last_updated: "2026-03-25T12:15:04.855Z"
 progress:
   total_phases: 6
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
+  completed_plans: 2
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-25)
 ## Current Position
 
 Phase: 01 (Foundation and App Shell) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 
 ## Performance Metrics
 
@@ -47,6 +47,7 @@ Plan: 2 of 3
 
 *Updated after each plan completion*
 | Phase 01 P01 | 3min | 2 tasks | 16 files |
+| Phase 01 P02 | 2min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -60,6 +61,8 @@ Recent decisions affecting current work:
 - [Pre-Phase 1]: SixLabors.ImageSharp replaces System.Drawing/GDI+ everywhere — GDI+ throws PlatformNotSupportedException on macOS at runtime; this is not a compile-time error
 - [Phase 01]: Per-project Directory.Build.props to isolate ShareXMac from root Windows-specific build configuration
 - [Phase 01]: CFBundleIdentifier=com.sharexmac.app as stable TCC identity for macOS permissions
+- [Phase 01]: CGPreflightScreenCaptureAccess false maps to Denied (API does not distinguish NotDetermined)
+- [Phase 01]: ImageSharp Bgra32 pixel format for CGImage-to-PNG conversion avoiding System.Drawing
 
 ### Pending Todos
 
@@ -77,6 +80,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T12:11:09.355Z
-Stopped at: Completed 01-01-PLAN.md
+Last session: 2026-03-25T12:15:04.852Z
+Stopped at: Completed 01-02-PLAN.md
 Resume file: None

@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="SixLabors.ImageSharp" />
+    <PackageReference Include="sqlite-net-pcl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ShareXMac.Core\ShareXMac.Core.csproj" />

@@ -50,7 +50,14 @@ Plans:
   5. A preview thumbnail appears after every capture with quick action buttons (copy, save, annotate)
   6. Captures are automatically copied to clipboard and saved to the configured local directory with a configurable filename template
   7. Capture history shows thumbnails of past captures with re-share and re-edit options; history is searchable and filterable
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Core data contracts: CaptureMode, CaptureResult, ICaptureService, IOutputService, OutputOptions, ICaptureHistory, CaptureRecord + OutputService and SqliteCaptureHistory implementations
+- [ ] 02-02-PLAN.md — ScreenCaptureKitBridge expansion: full ICaptureService implementation with region, window, fullscreen, freeze, and window enumeration
+- [ ] 02-03-PLAN.md — Region selector overlay (SkiaSharp crosshair, selection rect, magnifier) + window picker overlay (highlight, click-to-select)
+- [ ] 02-04-PLAN.md — Capture preview popup (280x80, auto-dismiss) + history view (search, filter, thumbnail grid)
+- [ ] 02-05-PLAN.md — Integration: wire all capture modes through AppViewModel, TrayIcon menu, HotkeyService, and MainWindow history tab
 **UI hint**: yes
 
 ### Phase 3: Workflow Engine and Hotkeys
@@ -112,8 +119,8 @@ Note: Phases 3, 4, 5, and 6 all depend on Phase 2 but have no dependency on each
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation and App Shell | 1/3 | In Progress|  |
-| 2. Core Capture | 0/? | Not started | - |
+| 1. Foundation and App Shell | 3/3 | Complete |  |
+| 2. Core Capture | 0/5 | Planned | - |
 | 3. Workflow Engine and Hotkeys | 0/? | Not started | - |
 | 4. Annotation Editor and Image Effects | 0/? | Not started | - |
 | 5. Upload Destinations and Sharing | 0/? | Not started | - |

@@ -7,9 +7,9 @@ using SixLabors.ImageSharp.Formats.Png;
 namespace ShareXMac.macOS.Capture;
 
 /// <summary>
-/// Captures a single full-screen screenshot using CGWindowListCreateImage (P/Invoke).
-/// This is a Phase 1 proof-of-concept. Phase 2 will replace this with
-/// ScreenCaptureKit via a thin native Swift dylib, as per the architecture decision.
+/// Captures screenshots using CGWindowListCreateImage (P/Invoke).
+/// Phase 1 established the full-screen path. Phase 2 Plan 02-02 will implement
+/// all capture modes (region, window, freeze, all-screens).
 ///
 /// CGWindowListCreateImage works without net9.0-macos TFM — it's a plain C API
 /// in CoreGraphics.framework.
@@ -57,7 +57,7 @@ public sealed class ScreenCaptureKitBridge : ICaptureService
         public static readonly CGRect Null = new() { X = 0, Y = 0, Width = 0, Height = 0 };
     }
 
-    public async Task<byte[]> TakeSingleScreenshotAsync(CancellationToken ct = default)
+    public async Task<CaptureResult> CaptureFullScreenAsync(uint displayId = 0, CancellationToken ct = default)
     {
         return await Task.Run(() =>
         {
@@ -98,7 +98,14 @@ public sealed class ScreenCaptureKitBridge : ICaptureService
                     using var image = Image.LoadPixelData<Bgra32>(rawPixels, width, height);
                     using var ms = new MemoryStream();
                     image.Save(ms, new PngEncoder());
-                    return ms.ToArray();
+
+                    return new CaptureResult(
+                        PngBytes: ms.ToArray(),
+                        Mode: CaptureMode.FullScreen,
+                        CapturedAt: DateTimeOffset.UtcNow,
+                        Width: width,
+                        Height: height,
+                        DisplayId: displayId);
                 }
                 finally
                 {
@@ -111,4 +118,28 @@ public sealed class ScreenCaptureKitBridge : ICaptureService
             }
         }, ct);
     }
+
+    /// <summary>Stub — will be implemented in Plan 02-02.</summary>
+    public Task<CaptureResult> CaptureAllScreensAsync(CancellationToken ct = default)
+        => throw new NotImplementedException("CaptureAllScreensAsync will be implemented in Plan 02-02.");
+
+    /// <summary>Stub — will be implemented in Plan 02-02.</summary>
+    public Task<CaptureResult> CaptureRegionAsync(CGRectCapture rect, uint displayId = 0, CancellationToken ct = default)
+        => throw new NotImplementedException("CaptureRegionAsync will be implemented in Plan 02-02.");
+
+    /// <summary>Stub — will be implemented in Plan 02-02.</summary>
+    public Task<CaptureResult> CaptureWindowAsync(uint windowId, bool includeShadow = true, CancellationToken ct = default)
+        => throw new NotImplementedException("CaptureWindowAsync will be implemented in Plan 02-02.");
+
+    /// <summary>Stub — will be implemented in Plan 02-02.</summary>
+    public Task<CaptureResult> CaptureFreezeAsync(uint displayId = 0, CancellationToken ct = default)
+        => throw new NotImplementedException("CaptureFreezeAsync will be implemented in Plan 02-02.");
+
+    /// <summary>Stub — will be implemented in Plan 02-02.</summary>
+    public Task<IReadOnlyList<WindowInfo>> GetWindowListAsync(CancellationToken ct = default)
+        => throw new NotImplementedException("GetWindowListAsync will be implemented in Plan 02-02.");
+
+    /// <summary>Stub — will be implemented in Plan 02-02.</summary>
+    public uint[] GetActiveDisplayIds()
+        => throw new NotImplementedException("GetActiveDisplayIds will be implemented in Plan 02-02.");
 }

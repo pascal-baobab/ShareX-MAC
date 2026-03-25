@@ -113,13 +113,60 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (To be filled by roadmapper) | | |
+| FOUND-01 | Phase 1 | Pending |
+| FOUND-02 | Phase 1 | Pending |
+| FOUND-03 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Pending |
+| FOUND-05 | Phase 1 | Pending |
+| FOUND-06 | Phase 3 | Pending |
+| FOUND-07 | Phase 3 | Pending |
+| CAPT-01 | Phase 2 | Pending |
+| CAPT-02 | Phase 2 | Pending |
+| CAPT-03 | Phase 2 | Pending |
+| CAPT-04 | Phase 2 | Pending |
+| CAPT-05 | Phase 2 | Pending |
+| CAPT-06 | Phase 2 | Pending |
+| REC-01 | Phase 6 | Pending |
+| REC-02 | Phase 6 | Pending |
+| REC-03 | Phase 6 | Pending |
+| REC-04 | Phase 6 | Pending |
+| REC-05 | Phase 6 | Pending |
+| REC-06 | Phase 6 | Pending |
+| EDIT-01 | Phase 4 | Pending |
+| EDIT-02 | Phase 4 | Pending |
+| EDIT-03 | Phase 4 | Pending |
+| EDIT-04 | Phase 4 | Pending |
+| EDIT-05 | Phase 4 | Pending |
+| EDIT-06 | Phase 4 | Pending |
+| EDIT-07 | Phase 4 | Pending |
+| EDIT-08 | Phase 4 | Pending |
+| EDIT-09 | Phase 4 | Pending |
+| UPLD-01 | Phase 5 | Pending |
+| UPLD-02 | Phase 5 | Pending |
+| UPLD-03 | Phase 5 | Pending |
+| UPLD-04 | Phase 5 | Pending |
+| UPLD-05 | Phase 5 | Pending |
+| UPLD-06 | Phase 5 | Pending |
+| UPLD-07 | Phase 5 | Pending |
+| UPLD-08 | Phase 5 | Pending |
+| OUT-01 | Phase 2 | Pending |
+| OUT-02 | Phase 2 | Pending |
+| OUT-03 | Phase 2 | Pending |
+| OUT-04 | Phase 2 | Pending |
+| OUT-05 | Phase 2 | Pending |
+| UTIL-01 | Phase 6 | Pending |
+| UTIL-02 | Phase 6 | Pending |
+| UTIL-03 | Phase 6 | Pending |
+| UTIL-04 | Phase 4 | Pending |
+| UTIL-05 | Phase 5 | Pending |
 
 **Coverage:**
-- v1 requirements: 38 total
-- Mapped to phases: 0
-- Unmapped: 38
+- v1 requirements: 46 total
+- Mapped to phases: 46
+- Unmapped: 0
+
+Note: REQUIREMENTS.md lists 46 v1 requirements. The "38 total" figure in the original traceability section was from an earlier count during research; the final requirement set expanded to 46 during requirements definition.
 
 ---
 *Requirements defined: 2026-03-25*
-*Last updated: 2026-03-25 after initial definition*
+*Last updated: 2026-03-25 — traceability filled by roadmapper; all 46 v1 requirements mapped to phases 1-6*

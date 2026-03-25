@@ -36,7 +36,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 Plans:
 - [x] 01-01-PLAN.md — Solution scaffold: three-project structure, NuGet packages, entitlements.plist, Info.plist
 - [x] 01-02-PLAN.md — macOS interop layer: TccPermissionManager (TCC P/Invoke) + ScreenCaptureKitBridge (one-screenshot proof)
-- [ ] 01-03-PLAN.md — App shell: TrayIcon + NativeMenu, PermissionWizardWindow, MainWindow skeleton, HotkeyService
+- [x] 01-03-PLAN.md — App shell: TrayIcon + NativeMenu, PermissionWizardWindow, MainWindow skeleton, HotkeyService
 
 ### Phase 2: Core Capture
 **Goal**: Users can capture any region, window, or full screen and the result lands in clipboard, local file, history, and a preview thumbnail — the complete screenshot → output loop

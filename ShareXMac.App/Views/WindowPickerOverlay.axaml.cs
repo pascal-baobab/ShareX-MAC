@@ -151,7 +151,7 @@ internal sealed class WindowPickerDrawOperation : ICustomDrawOperation
 
     public void Render(ImmediateDrawingContext context)
     {
-        var leaseFeature = context.TryGetFeature<ISkiaSharpApiLeaseFeature>();
+        var leaseFeature = context.TryGetFeature(typeof(ISkiaSharpApiLeaseFeature)) as ISkiaSharpApiLeaseFeature;
         if (leaseFeature == null) return;
 
         using var lease = leaseFeature.Lease();

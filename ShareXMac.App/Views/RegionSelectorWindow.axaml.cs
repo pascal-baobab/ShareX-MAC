@@ -108,7 +108,6 @@ public partial class RegionSelectorWindow : Window
                 e.Handled = true;
                 break;
             case Key.Enter:
-            case Key.Return:
                 _ = _viewModel.ConfirmSelectionAsync();
                 e.Handled = true;
                 break;
@@ -211,7 +210,7 @@ internal sealed class RegionSelectorDrawOperation : ICustomDrawOperation
 
     public void Render(ImmediateDrawingContext context)
     {
-        var leaseFeature = context.TryGetFeature<ISkiaSharpApiLeaseFeature>();
+        var leaseFeature = context.TryGetFeature(typeof(ISkiaSharpApiLeaseFeature)) as ISkiaSharpApiLeaseFeature;
         if (leaseFeature == null) return;
 
         using var lease = leaseFeature.Lease();

@@ -58,12 +58,12 @@ public sealed class HistoryViewModel : ReactiveObject
         this.WhenAnyValue(x => x.SearchText)
             .Throttle(TimeSpan.FromMilliseconds(300))
             .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(_ => _ = LoadHistoryAsync());
+            .Subscribe(searchText => { _ = LoadHistoryAsync(); });
 
         // Reload on mode filter change (no debounce needed for chip clicks)
         this.WhenAnyValue(x => x.SelectedModeFilter)
             .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(_ => _ = LoadHistoryAsync());
+            .Subscribe(modeFilter => { _ = LoadHistoryAsync(); });
     }
 
     /// <summary>

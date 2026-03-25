@@ -52,17 +52,19 @@ Exceptions:
 
 All sizes reference device-independent pixels as used by Avalonia. The existing project baseline font size is 13px (from `ShareX.FontSize.Default`).
 
+Declared weights: **Regular (400)** and **SemiBold (600)** only.
+
 | Role | Size | Weight | Line Height | Avalonia Resource |
 |------|------|--------|-------------|-------------------|
 | Body | 13px | SemiBold (600) | 1.4 | `ShareX.FontSize.Default` (existing) |
 | Label / HUD | 11px | Regular (400) | 1.2 | New: `ShareX.FontSize.Small` |
-| Heading | 16px | Bold (700) | 1.3 | Inline in views (existing pattern from MainWindow) |
+| Heading | 16px | SemiBold (600) | 1.3 | Inline in views (existing pattern from MainWindow) |
 | Dimension overlay | 12px | SemiBold (600) | 1.0 | Rendered by SkiaSharp SKPaint, not AXAML |
 
 Usage mapping:
 - **Body (13px SemiBold):** History list item text (filename, date), preview thumbnail action labels, filter dropdowns
 - **Label/HUD (11px Regular):** Region selector dimension text ("1920 x 1080"), crosshair coordinate readout, preview auto-dismiss countdown, history metadata (file size, capture mode badge)
-- **Heading (16px Bold):** "History" tab header in MainWindow sidebar, empty state title
+- **Heading (16px SemiBold):** "History" tab header in MainWindow sidebar, empty state title. At 16px the larger size alone establishes hierarchy without requiring a heavier weight.
 - **Dimension overlay (12px SemiBold):** SkiaSharp-rendered text on the capture overlay canvas; drawn with SKPaint not AXAML TextBlock
 
 ---
@@ -259,7 +261,7 @@ The region selector and window picker use custom SkiaSharp rendering via `ICusto
 | Background | `#CC000000` (80% black) |
 | Text color | `#FFFFFF` |
 | Font | System default (SKTypeface.Default), 12px |
-| Font weight | SemiBold |
+| Font weight | SemiBold (600) |
 | Padding | 6px horizontal, 2px vertical |
 | Corner radius | 4px |
 | Position | 8px below selection bottom-right corner; if off-screen, flips to above selection top-left |
@@ -284,7 +286,7 @@ The region selector and window picker use custom SkiaSharp rendering via `ICusto
 ```
 +--[ MainWindow 900x600 ]--------------------------------------------+
 | +--[Sidebar 180px]--+ +--[Content Area]------------------------+ |
-| | ShareXMac (16px B) | | [Search TextBox, full width]          | |
+| | ShareXMac (16px S) | | [Search TextBox, full width]          | |
 | |                    | | [Filter: All | Region | Window | ...]  | |
 | | > Capture History  | | +--[Grid 3-col]--------------------+  | |
 | | > Settings         | | | [Card] [Card] [Card]             |  | |

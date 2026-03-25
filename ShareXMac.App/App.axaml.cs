@@ -41,6 +41,11 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            // CRITICAL: Tray apps must use OnExplicitShutdown. The default OnLastWindowClose
+            // kills the app when the permission wizard (or any window) is closed, because
+            // the TrayIcon is not a window. Without this, closing the wizard = app exits.
+            desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
             // Do NOT set desktop.MainWindow -- this is a menu bar app; the MainWindow
             // is optional and opened on demand from the menu. Setting it here would
             // show the window on every launch, which is wrong for a utility app.

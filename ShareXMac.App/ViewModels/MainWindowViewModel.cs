@@ -1,9 +1,14 @@
 using ReactiveUI;
+using ShareXMac.Core.History;
 
 namespace ShareXMac.App.ViewModels;
 
 public sealed class MainWindowViewModel : ReactiveObject
 {
-    // Placeholder ViewModel for MainWindow.
-    // Populated with settings and history ViewModels in Phase 3.
+    public HistoryViewModel History { get; }
+
+    public MainWindowViewModel(ICaptureHistory captureHistory)
+    {
+        History = new HistoryViewModel(captureHistory);
+    }
 }

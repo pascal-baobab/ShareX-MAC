@@ -4,10 +4,6 @@
              x:Class="ShareXMac.App.App"
              RequestedThemeVariant="Default">
 
-    <Application.DataContext>
-        <vm:AppViewModel />
-    </Application.DataContext>
-
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
@@ -17,8 +13,14 @@
             <TrayIcon ToolTipText="ShareXMac">
                 <TrayIcon.Menu>
                     <NativeMenu>
-                        <NativeMenuItem Header="Capture Screen"
-                                        Command="{Binding CaptureScreenCommand}" />
+                        <NativeMenuItem Header="Capture Region"
+                                        Command="{Binding CaptureRegionCommand}" />
+                        <NativeMenuItem Header="Capture Window"
+                                        Command="{Binding CaptureWindowCommand}" />
+                        <NativeMenuItem Header="Capture Full Screen"
+                                        Command="{Binding CaptureFullScreenCommand}" />
+                        <NativeMenuItem Header="Freeze &amp; Capture"
+                                        Command="{Binding CaptureFreezeCommand}" />
                         <NativeMenuItemSeparator />
                         <NativeMenuItem Header="Settings..."
                                         Command="{Binding OpenSettingsCommand}" />

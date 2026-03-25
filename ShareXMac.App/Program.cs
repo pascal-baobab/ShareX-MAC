@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.ReactiveUI;
 using System;
 
 namespace ShareXMac.App;
@@ -16,7 +17,6 @@ internal sealed class Program
     public static AppBuilder BuildAvaloniaApp() =>
         AppBuilder.Configure<App>()
             .UsePlatformDetect()
-            .WithInterFont()
             .UseReactiveUI()
             .LogToTrace();
 }

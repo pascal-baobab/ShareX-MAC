@@ -14,10 +14,10 @@
     <PackageVersion Include="ZXing.Net" Version="0.16.11" />
     <PackageVersion Include="ZXing.Net.Bindings.Windows.Compatibility" Version="0.16.14" />
     <!-- ShareXMac: Avalonia -->
-    <PackageVersion Include="Avalonia" Version="11.3.12" />
-    <PackageVersion Include="Avalonia.Desktop" Version="11.3.12" />
-    <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.3.12" />
-    <PackageVersion Include="Avalonia.ReactiveUI" Version="11.3.12" />
+    <PackageVersion Include="Avalonia" Version="11.3.8" />
+    <PackageVersion Include="Avalonia.Desktop" Version="11.3.8" />
+    <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.3.8" />
+    <PackageVersion Include="Avalonia.ReactiveUI" Version="11.3.8" />
     <!-- ShareXMac: Hotkeys -->
     <PackageVersion Include="SharpHook" Version="7.1.1" />
     <PackageVersion Include="SharpHook.Reactive" Version="7.1.1" />

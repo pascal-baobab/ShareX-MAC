@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using SharpHook;
-using SharpHook.Native;
+using SharpHook.Data;
 
 namespace ShareXMac.App.Services;
 
@@ -43,8 +43,8 @@ public sealed class HotkeyService : IDisposable
         // Note: KeyCode.Vc5 is the '5' key on the main keyboard.
         bool isCaptureBind =
             e.Data.KeyCode == KeyCode.Vc5 &&
-            e.RawEvent.Mask.HasFlag(ModifierMask.LeftMeta) &&
-            e.RawEvent.Mask.HasFlag(ModifierMask.Shift);
+            e.RawEvent.Mask.HasFlag(EventMask.LeftMeta) &&
+            e.RawEvent.Mask.HasFlag(EventMask.Shift);
 
         if (isCaptureBind)
         {

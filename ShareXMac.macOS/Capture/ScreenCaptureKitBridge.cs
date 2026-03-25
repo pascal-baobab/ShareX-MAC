@@ -1,93 +1,114 @@
-using ScreenCaptureKit;
-using CoreImage;
-using Foundation;
+using System.Runtime.InteropServices;
 using ShareXMac.Core.Capture;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Formats.Png;
 
 namespace ShareXMac.macOS.Capture;
 
 /// <summary>
-/// Captures a single full-screen screenshot using ScreenCaptureKit
-/// (SCScreenshotManager.CaptureImageAsync).
+/// Captures a single full-screen screenshot using CGWindowListCreateImage (P/Invoke).
+/// This is a Phase 1 proof-of-concept. Phase 2 will replace this with
+/// ScreenCaptureKit via a thin native Swift dylib, as per the architecture decision.
 ///
-/// IMPORTANT NSRunLoop requirement: This code requires NSApplication to be running
-/// (Avalonia's UseMacOS() satisfies this). Calling any SCKit async method from a
-/// thread without an active NSRunLoop causes an indefinite hang. See:
-/// https://github.com/dotnet/macios/issues/17350
+/// CGWindowListCreateImage works without net9.0-macos TFM — it's a plain C API
+/// in CoreGraphics.framework.
 /// </summary>
 public sealed class ScreenCaptureKitBridge : ICaptureService
 {
+    // CGWindowListCreateImage captures the screen as a CGImageRef.
+    // CGRectNull (all zeros) = capture entire main display.
+    // kCGWindowListOptionOnScreenOnly = 0, kCGNullWindowID = 0
+    [DllImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
+    private static extern IntPtr CGWindowListCreateImage(
+        CGRect screenBounds,
+        uint listOption,     // kCGWindowListOptionAll = 0
+        uint windowID,       // kCGNullWindowID = 0
+        uint imageOption);   // kCGWindowImageDefault = 0
+
+    [DllImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
+    private static extern nuint CGImageGetWidth(IntPtr image);
+
+    [DllImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
+    private static extern nuint CGImageGetHeight(IntPtr image);
+
+    [DllImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
+    private static extern IntPtr CGImageGetDataProvider(IntPtr image);
+
+    [DllImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
+    private static extern IntPtr CGDataProviderCopyData(IntPtr provider);
+
+    [DllImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")]
+    private static extern IntPtr CFDataGetBytePtr(IntPtr data);
+
+    [DllImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")]
+    private static extern nint CFDataGetLength(IntPtr data);
+
+    [DllImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")]
+    private static extern void CFRelease(IntPtr obj);
+
+    [DllImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
+    private static extern void CGImageRelease(IntPtr image);
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct CGRect
+    {
+        public double X, Y, Width, Height;
+        public static readonly CGRect Null = new() { X = 0, Y = 0, Width = 0, Height = 0 };
+    }
+
     public async Task<byte[]> TakeSingleScreenshotAsync(CancellationToken ct = default)
     {
-        // Step 1: Enumerate shareable content to get the primary display.
-        // GetShareableContentAsync requires an active NSRunLoop — it will hang
-        // indefinitely if NSApplication is not initialized.
-        SCShareableContent content;
-        try
+        return await Task.Run(() =>
         {
-            content = await SCShareableContent.GetShareableContentAsync();
-        }
-        catch (Exception ex)
-        {
-            throw new CaptureException("Failed to enumerate shareable content. " +
-                "Ensure Screen Recording permission is granted and NSApplication is initialized.", ex);
-        }
+            // CGWindowListCreateImage with CGRectNull captures the entire main display.
+            // kCGWindowListOptionOnScreenOnly = 0x01, kCGNullWindowID = 0, kCGWindowImageDefault = 0
+            IntPtr cgImage = CGWindowListCreateImage(
+                CGRect.Null,
+                0x01,  // kCGWindowListOptionOnScreenOnly
+                0,     // kCGNullWindowID
+                0);    // kCGWindowImageDefault
 
-        var displays = content.Displays;
-        if (displays == null || displays.Length == 0)
-            throw new CaptureException("No displays found via SCShareableContent.");
+            if (cgImage == IntPtr.Zero)
+                throw new CaptureException(
+                    "CGWindowListCreateImage returned null. Screen Recording permission may not be granted.");
 
-        // Use the first display (primary display) for the proof-of-concept screenshot.
-        var primaryDisplay = displays[0];
+            try
+            {
+                int width = (int)CGImageGetWidth(cgImage);
+                int height = (int)CGImageGetHeight(cgImage);
 
-        // Step 2: Build a content filter targeting the entire primary display.
-        var filter = new SCContentFilter(primaryDisplay, content.Windows);
+                IntPtr provider = CGImageGetDataProvider(cgImage);
+                if (provider == IntPtr.Zero)
+                    throw new CaptureException("CGImage has no data provider.");
 
-        // Step 3: Configure screenshot parameters.
-        var config = new SCStreamConfiguration
-        {
-            Width = (nuint)primaryDisplay.Width,
-            Height = (nuint)primaryDisplay.Height,
-            PixelFormat = 0x42475241, // kCVPixelFormatType_32BGRA
-            ShowsCursor = false
-        };
+                IntPtr cfData = CGDataProviderCopyData(provider);
+                if (cfData == IntPtr.Zero)
+                    throw new CaptureException("Failed to copy CGImage pixel data.");
 
-        // Step 4: Capture the image via SCScreenshotManager.
-        CGImage? cgImage;
-        try
-        {
-            cgImage = await SCScreenshotManager.CaptureImageAsync(filter, config);
-        }
-        catch (Exception ex)
-        {
-            throw new CaptureException("SCScreenshotManager.CaptureImageAsync failed. " +
-                "Screen Recording permission may have been denied.", ex);
-        }
+                try
+                {
+                    IntPtr pixelPtr = CFDataGetBytePtr(cfData);
+                    nint length = CFDataGetLength(cfData);
 
-        if (cgImage == null)
-            throw new CaptureException("SCScreenshotManager returned a null CGImage.");
+                    byte[] rawPixels = new byte[length];
+                    Marshal.Copy(pixelPtr, rawPixels, 0, (int)length);
 
-        // Step 5: Encode CGImage to PNG bytes using ImageSharp.
-        // We use ImageSharp (not System.Drawing) to avoid PlatformNotSupportedException on macOS.
-        // CGImage -> raw BGRA bytes -> ImageSharp Image<Bgra32> -> PNG stream.
-        int width = (int)cgImage.Width;
-        int height = (int)cgImage.Height;
-        var dataProvider = cgImage.DataProvider;
-        if (dataProvider == null)
-            throw new CaptureException("CGImage has no data provider.");
-
-        using var nsData = dataProvider.CopyData();
-        if (nsData == null)
-            throw new CaptureException("Failed to copy CGImage pixel data.");
-
-        byte[] rawPixels = nsData.ToArray();
-
-        using var image = SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.Bgra32>(
-            rawPixels, width, height);
-
-        using var ms = new System.IO.MemoryStream();
-        await image.SaveAsync(ms, new PngEncoder(), ct);
-        return ms.ToArray();
+                    // CGWindowListCreateImage returns BGRA pixel data
+                    using var image = Image.LoadPixelData<Bgra32>(rawPixels, width, height);
+                    using var ms = new MemoryStream();
+                    image.Save(ms, new PngEncoder());
+                    return ms.ToArray();
+                }
+                finally
+                {
+                    CFRelease(cfData);
+                }
+            }
+            finally
+            {
+                CGImageRelease(cgImage);
+            }
+        }, ct);
     }
 }

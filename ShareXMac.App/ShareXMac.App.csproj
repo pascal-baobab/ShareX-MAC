@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <CodesignEntitlements>entitlements.plist</CodesignEntitlements>
+    <CFBundleIdentifier>com.sharexmac.app</CFBundleIdentifier>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+    <PackageReference Include="Avalonia.ReactiveUI" />
+    <PackageReference Include="SharpHook" />
+    <PackageReference Include="SharpHook.Reactive" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ShareXMac.Core\ShareXMac.Core.csproj" />
+    <ProjectReference Include="..\ShareXMac.macOS\ShareXMac.macOS.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Info.plist">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="entitlements.plist">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

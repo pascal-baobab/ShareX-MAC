@@ -1,0 +1,9 @@
+<Project>
+  <!-- Override root Directory.Build.props which targets Windows -->
+  <PropertyGroup>
+    <Company>ShareXMac</Company>
+    <Product>ShareXMac</Product>
+    <Copyright>Copyright (c) 2024-2026 ShareXMac</Copyright>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+</Project>

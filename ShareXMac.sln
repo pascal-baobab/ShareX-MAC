@@ -1,0 +1,31 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareXMac.Core", "ShareXMac.Core\ShareXMac.Core.csproj", "{193AEAC4-ED91-4E9C-8E3F-F968A23FAAC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareXMac.macOS", "ShareXMac.macOS\ShareXMac.macOS.csproj", "{49230C0C-270E-4E69-8323-741D91AFE63D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareXMac.App", "ShareXMac.App\ShareXMac.App.csproj", "{97D6D829-3D67-47C4-818B-8C9EFAB73D72}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{193AEAC4-ED91-4E9C-8E3F-F968A23FAAC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{193AEAC4-ED91-4E9C-8E3F-F968A23FAAC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{193AEAC4-ED91-4E9C-8E3F-F968A23FAAC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{193AEAC4-ED91-4E9C-8E3F-F968A23FAAC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49230C0C-270E-4E69-8323-741D91AFE63D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49230C0C-270E-4E69-8323-741D91AFE63D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49230C0C-270E-4E69-8323-741D91AFE63D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49230C0C-270E-4E69-8323-741D91AFE63D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97D6D829-3D67-47C4-818B-8C9EFAB73D72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97D6D829-3D67-47C4-818B-8C9EFAB73D72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97D6D829-3D67-47C4-818B-8C9EFAB73D72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97D6D829-3D67-47C4-818B-8C9EFAB73D72}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

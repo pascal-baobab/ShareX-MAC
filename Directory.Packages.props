@@ -5,6 +5,7 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Original ShareX packages -->
     <PackageVersion Include="FluentFTP" Version="53.0.2" />
     <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.3" />
     <PackageVersion Include="Microsoft.Data.Sqlite.Core" Version="10.0.3" />
@@ -12,5 +13,21 @@
     <PackageVersion Include="SSH.NET" Version="2025.1.0" />
     <PackageVersion Include="ZXing.Net" Version="0.16.11" />
     <PackageVersion Include="ZXing.Net.Bindings.Windows.Compatibility" Version="0.16.14" />
+    <!-- ShareXMac: Avalonia -->
+    <PackageVersion Include="Avalonia" Version="11.3.12" />
+    <PackageVersion Include="Avalonia.Desktop" Version="11.3.12" />
+    <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.3.12" />
+    <PackageVersion Include="Avalonia.ReactiveUI" Version="11.3.12" />
+    <!-- ShareXMac: Hotkeys -->
+    <PackageVersion Include="SharpHook" Version="7.1.1" />
+    <PackageVersion Include="SharpHook.Reactive" Version="7.1.1" />
+    <!-- ShareXMac: Image processing -->
+    <PackageVersion Include="SixLabors.ImageSharp" Version="3.1.12" />
+    <PackageVersion Include="SixLabors.ImageSharp.Drawing" Version="2.1.7" />
+    <!-- ShareXMac: History -->
+    <PackageVersion Include="sqlite-net-pcl" Version="1.9.172" />
+    <!-- ShareXMac: Upload SDKs -->
+    <PackageVersion Include="AWSSDK.S3" Version="4.0.18.4" />
+    <PackageVersion Include="Imgur.API" Version="5.0.0" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,27 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ShareXMac.App.Views.MainWindow"
+        Title="ShareXMac"
+        Width="900" Height="600"
+        WindowStartupLocation="CenterScreen">
+
+    <DockPanel>
+        <!-- Sidebar placeholder -->
+        <Border DockPanel.Dock="Left" Width="180" Background="#F5F5F5"
+                BorderBrush="#DDDDDD" BorderThickness="0,0,1,0">
+            <StackPanel Margin="16" Spacing="8">
+                <TextBlock Text="ShareXMac" FontWeight="Bold" FontSize="16" />
+                <TextBlock Text="History" />
+                <TextBlock Text="Settings" />
+            </StackPanel>
+        </Border>
+
+        <!-- Main content area placeholder -->
+        <Grid>
+            <TextBlock Text="History and settings panels -- coming in Phase 3"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Foreground="#999999" />
+        </Grid>
+    </DockPanel>
+
+</Window>

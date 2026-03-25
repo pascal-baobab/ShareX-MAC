@@ -1,0 +1,54 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ShareXMac.App.ViewModels"
+        x:Class="ShareXMac.App.Views.PermissionWizardWindow"
+        Title="ShareXMac &#x2014; Setup"
+        Width="480" Height="360"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen">
+
+    <StackPanel Margin="32" Spacing="16">
+        <TextBlock Text="Welcome to ShareXMac"
+                   FontSize="20" FontWeight="Bold" />
+
+        <TextBlock Text="ShareXMac needs two permissions to work. You can grant them now or later from the menu bar icon."
+                   TextWrapping="Wrap" />
+
+        <!-- Screen Recording permission step -->
+        <Border Background="#1A0000FF" CornerRadius="8" Padding="16">
+            <StackPanel Spacing="8">
+                <TextBlock Text="Screen Recording" FontWeight="SemiBold" />
+                <TextBlock Text="Required to capture screenshots. macOS will show a system dialog."
+                           TextWrapping="Wrap" Foreground="#555555" />
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Content="Grant Screen Recording"
+                            Command="{Binding GrantScreenRecordingCommand}" />
+                    <TextBlock Text="{Binding ScreenRecordingStatus}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Accessibility / Input Monitoring permission step -->
+        <Border Background="#1A00FF00" CornerRadius="8" Padding="16">
+            <StackPanel Spacing="8">
+                <TextBlock Text="Accessibility (Input Monitoring)" FontWeight="SemiBold" />
+                <TextBlock Text="Required for global hotkeys to work when ShareXMac is in the background."
+                           TextWrapping="Wrap" Foreground="#555555" />
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Content="Open Accessibility Settings"
+                            Command="{Binding OpenAccessibilitySettingsCommand}" />
+                    <TextBlock Text="{Binding AccessibilityStatus}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Informational note about macOS Sequoia monthly re-prompts -->
+        <TextBlock Text="Note: On macOS 15 (Sequoia), Screen Recording permission may be re-requested monthly. This is an Apple requirement and cannot be disabled."
+                   TextWrapping="Wrap" FontSize="11" Foreground="#888888" />
+
+        <Button Content="Done" HorizontalAlignment="Right"
+                Command="{Binding DoneCommand}" />
+    </StackPanel>
+</Window>

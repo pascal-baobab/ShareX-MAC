@@ -1,0 +1,43 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-03-25T21:20:26.295Z",
+  "phase": "02",
+  "phase_name": "core-capture",
+  "phase_dir": ".planning/phases/02-core-capture",
+  "plan": 5,
+  "task": 3,
+  "total_tasks": 11,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": 1, "plan": "02-01", "name": "Core capture contracts (CaptureMode, CaptureResult, ICaptureService, IOutputService, ICaptureHistory)", "status": "done", "commit": "f5e68f5da"},
+    {"id": 2, "plan": "02-01", "name": "OutputService (NSPasteboard + file save) + SqliteCaptureHistory", "status": "done", "commit": "85179bf08"},
+    {"id": 3, "plan": "02-02", "name": "ScreenCaptureKitBridge FullScreen/Region/Freeze/AllScreens + GetActiveDisplayIds", "status": "done", "commit": "810df4fef"},
+    {"id": 4, "plan": "02-02", "name": "GetWindowListAsync with CGWindowListCopyWindowInfo P/Invoke", "status": "done", "commit": "473818471"},
+    {"id": 5, "plan": "02-03", "name": "RegionSelectorWindow with SkiaSharp overlay + ViewModel", "status": "done", "commit": "9bf0380ae"},
+    {"id": 6, "plan": "02-03", "name": "WindowPickerOverlay with window highlight + ViewModel", "status": "done", "commit": "7d729b728"},
+    {"id": 7, "plan": "02-04", "name": "CapturePreviewPopup with auto-dismiss countdown", "status": "done", "commit": "71f0c10ec"},
+    {"id": 8, "plan": "02-04", "name": "HistoryView + HistoryItemCard + HistoryViewModel", "status": "done", "commit": "fe26e2883"},
+    {"id": 9, "plan": "02-05", "name": "Wire AppViewModel, TrayIcon menu, service init, HistoryView", "status": "done", "commit": "5b7047c18"},
+    {"id": 10, "plan": "02-05", "name": "Wire HotkeyService to capture commands Cmd+Shift+3/4/5", "status": "done", "commit": "f2eef23c2"}
+  ],
+  "remaining_tasks": [
+    {"id": 11, "plan": "02-05", "name": "Human verification checkpoint - test complete capture pipeline", "status": "not_started"}
+  ],
+  "blockers": [
+    {"description": "TrayIcon visibility not confirmed by user yet - icon PNG was added but user hasn't verified it appears", "type": "human_action", "workaround": "Run dotnet run --project ShareXMac.App and check menu bar"},
+    {"description": "Screen Recording permission may not be grantable from dotnet run (unsigned app) - TCC dialog might not appear", "type": "technical", "workaround": "Grant permission manually in System Settings > Privacy & Security > Screen Recording, or sign the app with Developer ID"}
+  ],
+  "human_actions_pending": [
+    {"action": "Verify TrayIcon appears in menu bar after tray-icon.png fix", "context": "Icon was missing because no Icon property was set on TrayIcon in App.axaml", "blocking": true},
+    {"action": "Grant Screen Recording permission to ShareXMac.App in System Settings", "context": "CGRequestScreenCaptureAccess may not show dialog for unsigned dotnet run builds", "blocking": true},
+    {"action": "Test 14-point capture pipeline verification (region, window, fullscreen, freeze, clipboard, save, history, preview)", "context": "Plan 02-05 Task 3 checkpoint", "blocking": false}
+  ],
+  "decisions": [
+    {"decision": "ShutdownMode.OnExplicitShutdown for tray app", "rationale": "Default OnLastWindowClose kills app when permission wizard closes", "phase": "02"},
+    {"decision": "Non-generic TryGetFeature(typeof(T)) for Avalonia 11.3 SkiaSharp interop", "rationale": "Generic TryGetFeature<T> not available in this Avalonia version", "phase": "02"},
+    {"decision": "22x22 white camera PNG as tray icon", "rationale": "Placeholder until proper template image is designed; macOS menu bar requires visible icon", "phase": "02"}
+  ],
+  "uncommitted_files": [],
+  "next_action": "1) Run app and verify TrayIcon appears. 2) Grant Screen Recording permission. 3) Complete 14-point verification. 4) Run gsd-verifier for phase completion. 5) Continue autonomous from phase 3.",
+  "context_notes": "Phase 2 execution complete (5 plans, 4 waves). All code written and committed. 3 post-merge build fixes applied. App builds and runs but user couldn't see TrayIcon (fixed). Permission wizard may block captures until Screen Recording is granted. The autonomous workflow was at: execute-phase 2 -> checkpoint -> verify -> then phases 3-6 remain."
+}

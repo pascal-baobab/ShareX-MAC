@@ -1,0 +1,13 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ShareXMac.App.Views.RegionSelectorWindow"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent"
+        CanResize="False"
+        ShowInTaskbar="False"
+        Topmost="True"
+        WindowState="FullScreen">
+    <!-- All rendering is done via SkiaSharp ICustomDrawOperation in code-behind.
+         No AXAML child controls - the entire surface is a custom-drawn canvas. -->
+</Window>

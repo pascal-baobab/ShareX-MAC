@@ -9,11 +9,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Foundation
 
-- [ ] **FOUND-01**: App launches as menu bar icon with dropdown menu for all capture actions
-- [ ] **FOUND-02**: App has a full settings/history window accessible from menu bar
-- [ ] **FOUND-03**: macOS Screen Recording permission is requested on first launch with clear guidance
-- [ ] **FOUND-04**: macOS Accessibility permission is requested when needed with clear guidance
-- [ ] **FOUND-05**: Global hotkeys trigger capture actions when app is in background
+- [x] **FOUND-01**: App launches as menu bar icon with dropdown menu for all capture actions
+- [x] **FOUND-02**: App has a full settings/history window accessible from menu bar
+- [x] **FOUND-03**: macOS Screen Recording permission is requested on first launch with clear guidance
+- [x] **FOUND-04**: macOS Accessibility permission is requested when needed with clear guidance
+- [x] **FOUND-05**: Global hotkeys trigger capture actions when app is in background
 - [ ] **FOUND-06**: Hotkeys are user-configurable in settings
 - [ ] **FOUND-07**: After-capture workflow is configurable per action (save, copy, upload, edit — any combination)
 
@@ -113,11 +113,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase 1 | Pending |
-| FOUND-02 | Phase 1 | Pending |
-| FOUND-03 | Phase 1 | Pending |
-| FOUND-04 | Phase 1 | Pending |
-| FOUND-05 | Phase 1 | Pending |
+| FOUND-01 | Phase 1 | Complete |
+| FOUND-02 | Phase 1 | Complete |
+| FOUND-03 | Phase 1 | Complete |
+| FOUND-04 | Phase 1 | Complete |
+| FOUND-05 | Phase 1 | Complete |
 | FOUND-06 | Phase 3 | Pending |
 | FOUND-07 | Phase 3 | Pending |
 | CAPT-01 | Phase 2 | Pending |

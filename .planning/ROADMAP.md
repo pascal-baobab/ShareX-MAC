@@ -31,7 +31,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. On first launch, user is walked through granting Screen Recording permission with clear guidance; denied permission is recoverable, not fatal
   4. On first launch requiring accessibility, user is walked through granting Input Monitoring permission with clear guidance
   5. Pressing the configured global hotkey while the app is in the background fires the registered callback (verified by log or placeholder action)
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [x] 01-01-PLAN.md — Solution scaffold: three-project structure, NuGet packages, entitlements.plist, Info.plist
+- [ ] 01-02-PLAN.md — macOS interop layer: TccPermissionManager (TCC P/Invoke) + ScreenCaptureKitBridge (one-screenshot proof)
+- [ ] 01-03-PLAN.md — App shell: TrayIcon + NativeMenu, PermissionWizardWindow, MainWindow skeleton, HotkeyService
 
 ### Phase 2: Core Capture
 **Goal**: Users can capture any region, window, or full screen and the result lands in clipboard, local file, history, and a preview thumbnail — the complete screenshot → output loop
@@ -107,7 +112,7 @@ Note: Phases 3, 4, 5, and 6 all depend on Phase 2 but have no dependency on each
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation and App Shell | 0/? | Not started | - |
+| 1. Foundation and App Shell | 1/3 | In Progress|  |
 | 2. Core Capture | 0/? | Not started | - |
 | 3. Workflow Engine and Hotkeys | 0/? | Not started | - |
 | 4. Annotation Editor and Image Effects | 0/? | Not started | - |

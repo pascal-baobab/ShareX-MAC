@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to execute
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-03-25T20:29:35.563Z"
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-03-25T20:37:59.541Z"
 progress:
   total_phases: 6
   completed_phases: 1
   total_plans: 8
-  completed_plans: 3
+  completed_plans: 5
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-25)
 ## Current Position
 
 Phase: 02 (core-capture) — EXECUTING
-Plan: 2 of 5
+Plan: 3 of 5
 
 ## Performance Metrics
 
@@ -50,6 +50,7 @@ Plan: 2 of 5
 | Phase 01 P02 | 2min | 2 tasks | 5 files |
 | Phase 01 P03 | 3min | 3 tasks | 11 files |
 | Phase 02 P01 | 10min | 2 tasks | 12 files |
+| Phase 02 P02 | 4min | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -70,6 +71,8 @@ Recent decisions affecting current work:
 - [Phase 02]: NSPasteboard clipboard via raw P/Invoke (objc_msgSend), not Process.Start pbcopy
 - [Phase 02]: Inline JPEG thumbnails (100x100 max, 80% quality) in SQLite for capture history
 - [Phase 02]: CaptureResult sealed record as universal output type for all capture modes
+- [Phase 02]: Extracted CaptureImageToResult shared helper for all 5 capture methods (CGImage->BGRA32->PNG pipeline)
+- [Phase 02]: Lazy<IntPtr> cached CFString keys for CGWindowListCopyWindowInfo dictionary lookups
 
 ### Pending Todos
 
@@ -87,6 +90,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T20:29:35.560Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-03-25T20:37:59.538Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None

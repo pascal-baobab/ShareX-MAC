@@ -53,8 +53,8 @@ Plans:
 **Plans**: 5 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Core data contracts: CaptureMode, CaptureResult, ICaptureService, IOutputService, OutputOptions, ICaptureHistory, CaptureRecord + OutputService and SqliteCaptureHistory implementations
-- [ ] 02-02-PLAN.md — ScreenCaptureKitBridge expansion: full ICaptureService implementation with region, window, fullscreen, freeze, and window enumeration
+- [x] 02-01-PLAN.md — Core data contracts: CaptureMode, CaptureResult, ICaptureService, IOutputService, OutputOptions, ICaptureHistory, CaptureRecord + OutputService and SqliteCaptureHistory implementations
+- [x] 02-02-PLAN.md — ScreenCaptureKitBridge expansion: full ICaptureService implementation with region, window, fullscreen, freeze, and window enumeration
 - [ ] 02-03-PLAN.md — Region selector overlay (SkiaSharp crosshair, selection rect, magnifier) + window picker overlay (highlight, click-to-select)
 - [ ] 02-04-PLAN.md — Capture preview popup (280x80, auto-dismiss) + history view (search, filter, thumbnail grid)
 - [ ] 02-05-PLAN.md — Integration: wire all capture modes through AppViewModel, TrayIcon menu, HotkeyService, and MainWindow history tab

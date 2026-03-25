@@ -76,7 +76,7 @@ public sealed class ScreenCaptureKitBridge : ICaptureService
 
     #endregion
 
-    #region P/Invoke — CoreFoundation
+    #region P/Invoke — CoreFoundation (Data)
 
     [DllImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")]
     private static extern IntPtr CFDataGetBytePtr(IntPtr data);
@@ -86,6 +86,78 @@ public sealed class ScreenCaptureKitBridge : ICaptureService
 
     [DllImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")]
     private static extern void CFRelease(IntPtr obj);
+
+    #endregion
+
+    #region P/Invoke — CoreGraphics (Window List)
+
+    /// <summary>
+    /// Returns a CFArrayRef of CFDictionary entries describing on-screen windows.
+    /// Caller must CFRelease the returned array.
+    /// </summary>
+    [DllImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
+    private static extern IntPtr CGWindowListCopyWindowInfo(uint option, uint relativeToWindow);
+
+    #endregion
+
+    #region P/Invoke — CoreFoundation (CFArray / CFDictionary / CFNumber / CFString)
+
+    [DllImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")]
+    private static extern nint CFArrayGetCount(IntPtr array);
+
+    [DllImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")]
+    private static extern IntPtr CFArrayGetValueAtIndex(IntPtr array, nint index);
+
+    [DllImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")]
+    private static extern IntPtr CFDictionaryGetValue(IntPtr dict, IntPtr key);
+
+    [DllImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")]
+    private static extern bool CFNumberGetValue(IntPtr number, int theType, out int value);
+
+    [DllImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation", EntryPoint = "CFNumberGetValue")]
+    private static extern bool CFNumberGetDoubleValue(IntPtr number, int theType, out double value);
+
+    [DllImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")]
+    private static extern IntPtr CFStringCreateWithCString(IntPtr allocator, string cStr, uint encoding);
+
+    [DllImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")]
+    private static extern IntPtr CFStringGetCStringPtr(IntPtr theString, uint encoding);
+
+    [DllImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")]
+    private static extern bool CFStringGetCString(IntPtr theString, IntPtr buffer, nint bufferSize, uint encoding);
+
+    [DllImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")]
+    private static extern nint CFStringGetLength(IntPtr theString);
+
+    // CFNumber type constants
+    private const int kCFNumberSInt32Type = 3;
+    private const int kCFNumberFloat64Type = 13;
+
+    // CFString encoding
+    private const uint kCFStringEncodingUTF8 = 0x08000100;
+
+    // Cached CFString keys for CGWindowListCopyWindowInfo dictionary lookups.
+    // Created once and reused — they are global constants that do not need release.
+    private static readonly Lazy<IntPtr> s_kCGWindowNumber = new(() =>
+        CFStringCreateWithCString(IntPtr.Zero, "kCGWindowNumber", kCFStringEncodingUTF8));
+    private static readonly Lazy<IntPtr> s_kCGWindowOwnerName = new(() =>
+        CFStringCreateWithCString(IntPtr.Zero, "kCGWindowOwnerName", kCFStringEncodingUTF8));
+    private static readonly Lazy<IntPtr> s_kCGWindowName = new(() =>
+        CFStringCreateWithCString(IntPtr.Zero, "kCGWindowName", kCFStringEncodingUTF8));
+    private static readonly Lazy<IntPtr> s_kCGWindowBounds = new(() =>
+        CFStringCreateWithCString(IntPtr.Zero, "kCGWindowBounds", kCFStringEncodingUTF8));
+    private static readonly Lazy<IntPtr> s_kCGWindowLayer = new(() =>
+        CFStringCreateWithCString(IntPtr.Zero, "kCGWindowLayer", kCFStringEncodingUTF8));
+
+    // Sub-keys within the kCGWindowBounds sub-dictionary
+    private static readonly Lazy<IntPtr> s_boundsX = new(() =>
+        CFStringCreateWithCString(IntPtr.Zero, "X", kCFStringEncodingUTF8));
+    private static readonly Lazy<IntPtr> s_boundsY = new(() =>
+        CFStringCreateWithCString(IntPtr.Zero, "Y", kCFStringEncodingUTF8));
+    private static readonly Lazy<IntPtr> s_boundsWidth = new(() =>
+        CFStringCreateWithCString(IntPtr.Zero, "Width", kCFStringEncodingUTF8));
+    private static readonly Lazy<IntPtr> s_boundsHeight = new(() =>
+        CFStringCreateWithCString(IntPtr.Zero, "Height", kCFStringEncodingUTF8));
 
     #endregion
 
@@ -210,8 +282,71 @@ public sealed class ScreenCaptureKitBridge : ICaptureService
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyList<WindowInfo>> GetWindowListAsync(CancellationToken ct = default)
-        => throw new NotImplementedException("GetWindowListAsync — will be completed in Task 2.");
+    public async Task<IReadOnlyList<WindowInfo>> GetWindowListAsync(CancellationToken ct = default)
+    {
+        return await Task.Run(() =>
+        {
+            // Enumerate on-screen windows, excluding desktop elements (Dock, menu bar, etc.)
+            IntPtr cfArray = CGWindowListCopyWindowInfo(
+                kCGWindowListOptionOnScreenOnly | kCGWindowListExcludeDesktopElements,
+                kCGNullWindowID);
+
+            if (cfArray == IntPtr.Zero)
+                throw new CaptureException("CGWindowListCopyWindowInfo returned null.");
+
+            try
+            {
+                nint count = CFArrayGetCount(cfArray);
+                var windows = new List<WindowInfo>();
+
+                for (nint i = 0; i < count; i++)
+                {
+                    IntPtr dict = CFArrayGetValueAtIndex(cfArray, i);
+                    if (dict == IntPtr.Zero) continue;
+
+                    // Extract layer — filter to normal windows (layer == 0)
+                    int? layer = GetIntFromDict(dict, s_kCGWindowLayer.Value);
+                    if (layer is null || layer.Value != 0) continue;
+
+                    // Extract window ID
+                    int? windowNumber = GetIntFromDict(dict, s_kCGWindowNumber.Value);
+                    if (windowNumber is null) continue;
+
+                    // Extract owner name (required)
+                    string? ownerName = GetStringFromDict(dict, s_kCGWindowOwnerName.Value);
+                    if (string.IsNullOrEmpty(ownerName)) continue;
+
+                    // Extract window name (optional)
+                    string? windowName = GetStringFromDict(dict, s_kCGWindowName.Value);
+
+                    // Extract bounds sub-dictionary
+                    IntPtr boundsDict = CFDictionaryGetValue(dict, s_kCGWindowBounds.Value);
+                    double x = 0, y = 0, w = 0, h = 0;
+                    if (boundsDict != IntPtr.Zero)
+                    {
+                        x = GetDoubleFromDict(boundsDict, s_boundsX.Value) ?? 0;
+                        y = GetDoubleFromDict(boundsDict, s_boundsY.Value) ?? 0;
+                        w = GetDoubleFromDict(boundsDict, s_boundsWidth.Value) ?? 0;
+                        h = GetDoubleFromDict(boundsDict, s_boundsHeight.Value) ?? 0;
+                    }
+
+                    windows.Add(new WindowInfo(
+                        WindowId: (uint)windowNumber.Value,
+                        OwnerName: ownerName,
+                        WindowName: windowName,
+                        X: x, Y: y, Width: w, Height: h,
+                        Layer: layer.Value));
+                }
+
+                // List is already front-to-back (the order CGWindowListCopyWindowInfo returns)
+                return (IReadOnlyList<WindowInfo>)windows.AsReadOnly();
+            }
+            finally
+            {
+                CFRelease(cfArray);
+            }
+        }, ct);
+    }
 
     #endregion
 
@@ -324,6 +459,63 @@ public sealed class ScreenCaptureKitBridge : ICaptureService
 
         CGRect primaryBounds = CGDisplayBounds(displays[0]);
         return primaryBounds.Height;
+    }
+
+    #endregion
+
+    #region CFDictionary Value Extraction Helpers
+
+    /// <summary>Extracts an int value from a CFDictionary by key (CFNumber with kCFNumberSInt32Type).</summary>
+    private static int? GetIntFromDict(IntPtr dict, IntPtr key)
+    {
+        IntPtr value = CFDictionaryGetValue(dict, key);
+        if (value == IntPtr.Zero) return null;
+        if (CFNumberGetValue(value, kCFNumberSInt32Type, out int result))
+            return result;
+        return null;
+    }
+
+    /// <summary>Extracts a double value from a CFDictionary by key (CFNumber with kCFNumberFloat64Type).</summary>
+    private static double? GetDoubleFromDict(IntPtr dict, IntPtr key)
+    {
+        IntPtr value = CFDictionaryGetValue(dict, key);
+        if (value == IntPtr.Zero) return null;
+        if (CFNumberGetDoubleValue(value, kCFNumberFloat64Type, out double result))
+            return result;
+        return null;
+    }
+
+    /// <summary>
+    /// Extracts a string value from a CFDictionary by key.
+    /// Uses CFStringGetCStringPtr for fast path, falls back to CFStringGetCString.
+    /// </summary>
+    private static string? GetStringFromDict(IntPtr dict, IntPtr key)
+    {
+        IntPtr value = CFDictionaryGetValue(dict, key);
+        if (value == IntPtr.Zero) return null;
+
+        // Fast path: direct pointer to internal UTF-8 buffer
+        IntPtr cStringPtr = CFStringGetCStringPtr(value, kCFStringEncodingUTF8);
+        if (cStringPtr != IntPtr.Zero)
+            return Marshal.PtrToStringUTF8(cStringPtr);
+
+        // Slow path: copy to managed buffer
+        nint length = CFStringGetLength(value);
+        if (length <= 0) return null;
+
+        // UTF-8 can be up to 4 bytes per character, plus null terminator
+        nint bufferSize = length * 4 + 1;
+        IntPtr buffer = Marshal.AllocHGlobal(bufferSize);
+        try
+        {
+            if (CFStringGetCString(value, buffer, bufferSize, kCFStringEncodingUTF8))
+                return Marshal.PtrToStringUTF8(buffer);
+            return null;
+        }
+        finally
+        {
+            Marshal.FreeHGlobal(buffer);
+        }
     }
 
     #endregion

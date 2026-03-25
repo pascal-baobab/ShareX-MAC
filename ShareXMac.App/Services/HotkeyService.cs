@@ -9,47 +9,70 @@ namespace ShareXMac.App.Services;
 /// Registers global hotkeys using SharpHook (CGEventTap / libuiohook).
 /// Requires Input Monitoring permission (Accessibility) to fire globally.
 ///
-/// Phase 1: Logs a message when the hotkey fires (no capture yet).
-/// Phase 2: Will call CaptureService.TakeSingleScreenshotAsync().
+/// Hotkey bindings:
+///   Cmd+Shift+5 -> Capture Region (default, matches macOS convention)
+///   Cmd+Shift+4 -> Capture Window
+///   Cmd+Shift+3 -> Capture Full Screen
 ///
 /// macOS 15.4 regression note: On some machines running macOS 15.4, global hotkeys
-/// stop firing globally (only fire in-foreground). The NativeMenu "Capture Screen"
-/// item is the in-app fallback. Do not remove the menu item.
+/// stop firing globally (only fire in-foreground). This is a confirmed Apple bug
+/// affecting CGEventTap listeners. The NativeMenu capture items serve as the in-app
+/// fallback -- do not remove the menu items even if hotkeys appear to work in testing.
+/// See: https://developer.apple.com/forums/thread/744440
 /// </summary>
 public sealed class HotkeyService : IDisposable
 {
     private TaskPoolGlobalHook? _hook;
     private bool _disposed;
+    private Action? _onCaptureRegion;
+    private Action? _onCaptureWindow;
+    private Action? _onCaptureFullScreen;
 
-    public void Start()
+    /// <summary>
+    /// Starts the global hook and registers capture action callbacks.
+    /// All callbacks are invoked on the UI thread via Dispatcher.UIThread.Post
+    /// because SharpHook fires events on a background thread, but Avalonia
+    /// window operations require the UI thread.
+    /// </summary>
+    public void Start(Action onCaptureRegion, Action? onCaptureWindow = null, Action? onCaptureFullScreen = null)
     {
+        _onCaptureRegion = onCaptureRegion;
+        _onCaptureWindow = onCaptureWindow;
+        _onCaptureFullScreen = onCaptureFullScreen;
+
         if (_hook != null) return;
 
         _hook = new TaskPoolGlobalHook();
-
         _hook.KeyPressed += OnKeyPressed;
 
         // Start the hook on a background thread to avoid blocking the UI thread.
         // SharpHook.TaskPoolGlobalHook processes events on the thread pool.
         _ = Task.Run(() => _hook.RunAsync());
 
-        Console.WriteLine("[HotkeyService] Global hook started. Listening for Cmd+Shift+5.");
+        Console.WriteLine("[HotkeyService] Global hook started. Listening for Cmd+Shift+3/4/5.");
     }
 
     private void OnKeyPressed(object? sender, KeyboardHookEventArgs e)
     {
-        // Detect Cmd+Shift+5: SharpHook reports modifier keys as separate events.
-        // Check if the '5' key is pressed while Command and Shift modifiers are held.
-        // Note: KeyCode.Vc5 is the '5' key on the main keyboard.
-        bool isCaptureBind =
-            e.Data.KeyCode == KeyCode.Vc5 &&
-            e.RawEvent.Mask.HasFlag(EventMask.LeftMeta) &&
-            e.RawEvent.Mask.HasFlag(EventMask.Shift);
+        bool hasCmd = e.RawEvent.Mask.HasFlag(EventMask.LeftMeta);
+        bool hasShift = e.RawEvent.Mask.HasFlag(EventMask.Shift);
 
-        if (isCaptureBind)
+        if (!hasCmd || !hasShift) return;
+
+        // Cmd+Shift+5: Capture Region (default, matches macOS convention)
+        if (e.Data.KeyCode == KeyCode.Vc5)
         {
-            Console.WriteLine("[HotkeyService] Hotkey fired: CaptureScreen (Cmd+Shift+5)");
-            // Phase 1: Log only. Phase 2 will wire: CaptureService.TakeSingleScreenshotAsync()
+            Avalonia.Threading.Dispatcher.UIThread.Post(() => _onCaptureRegion?.Invoke());
+        }
+        // Cmd+Shift+4: Capture Window
+        else if (e.Data.KeyCode == KeyCode.Vc4)
+        {
+            Avalonia.Threading.Dispatcher.UIThread.Post(() => _onCaptureWindow?.Invoke());
+        }
+        // Cmd+Shift+3: Capture Full Screen
+        else if (e.Data.KeyCode == KeyCode.Vc3)
+        {
+            Avalonia.Threading.Dispatcher.UIThread.Post(() => _onCaptureFullScreen?.Invoke());
         }
     }
 

@@ -1,8 +1,34 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ShareXMac.App.ViewModels"
              x:Class="ShareXMac.App.App"
              RequestedThemeVariant="Default">
+
+    <Application.DataContext>
+        <vm:AppViewModel />
+    </Application.DataContext>
+
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
+
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <TrayIcon ToolTipText="ShareXMac">
+                <TrayIcon.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Capture Screen"
+                                        Command="{Binding CaptureScreenCommand}" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="Settings..."
+                                        Command="{Binding OpenSettingsCommand}" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="Quit ShareXMac"
+                                        Command="{Binding QuitCommand}" />
+                    </NativeMenu>
+                </TrayIcon.Menu>
+            </TrayIcon>
+        </TrayIcons>
+    </TrayIcon.Icons>
+
 </Application>

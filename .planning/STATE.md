@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to plan
-stopped_at: Completed 01-03-PLAN.md
-last_updated: "2026-03-25T13:12:26.332Z"
+status: Ready to execute
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-03-25T20:29:35.563Z"
 progress:
   total_phases: 6
   completed_phases: 1
-  total_plans: 3
+  total_plans: 8
   completed_plans: 3
 ---
 
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-25)
 
 **Core value:** Reliable screen capture and instant sharing on macOS — capture anything, share it anywhere, in one keystroke.
-**Current focus:** Phase 01 — Foundation and App Shell
+**Current focus:** Phase 02 — core-capture
 
 ## Current Position
 
-Phase: 2
-Plan: Not started
+Phase: 02 (core-capture) — EXECUTING
+Plan: 2 of 5
 
 ## Performance Metrics
 
@@ -49,6 +49,7 @@ Plan: Not started
 | Phase 01 P01 | 3min | 2 tasks | 16 files |
 | Phase 01 P02 | 2min | 2 tasks | 5 files |
 | Phase 01 P03 | 3min | 3 tasks | 11 files |
+| Phase 02 P01 | 10min | 2 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -66,6 +67,9 @@ Recent decisions affecting current work:
 - [Phase 01]: ImageSharp Bgra32 pixel format for CGImage-to-PNG conversion avoiding System.Drawing
 - [Phase 01]: AppViewModel owns TrayIcon commands; uses IPermissionManager to gate capture behind permission check
 - [Phase 01]: HotkeyService uses SharpHook TaskPoolGlobalHook with ModifierMask for Cmd+Shift+5 detection
+- [Phase 02]: NSPasteboard clipboard via raw P/Invoke (objc_msgSend), not Process.Start pbcopy
+- [Phase 02]: Inline JPEG thumbnails (100x100 max, 80% quality) in SQLite for capture history
+- [Phase 02]: CaptureResult sealed record as universal output type for all capture modes
 
 ### Pending Todos
 
@@ -83,6 +87,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T12:20:26.650Z
-Stopped at: Completed 01-03-PLAN.md
+Last session: 2026-03-25T20:29:35.560Z
+Stopped at: Completed 02-01-PLAN.md
 Resume file: None

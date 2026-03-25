@@ -19,10 +19,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Capture
 
-- [ ] **CAPT-01**: User can capture a selected region of the screen
-- [ ] **CAPT-02**: User can capture a specific application window (with/without shadow)
-- [ ] **CAPT-03**: User can capture the full screen (active monitor or all monitors)
-- [ ] **CAPT-04**: User can freeze the screen to capture transient UI (tooltips, menus, dropdowns)
+- [x] **CAPT-01**: User can capture a selected region of the screen
+- [x] **CAPT-02**: User can capture a specific application window (with/without shadow)
+- [x] **CAPT-03**: User can capture the full screen (active monitor or all monitors)
+- [x] **CAPT-04**: User can freeze the screen to capture transient UI (tooltips, menus, dropdowns)
 - [ ] **CAPT-05**: Region selector shows crosshair cursor with dimension overlay
 - [ ] **CAPT-06**: Capture preview thumbnail appears after capture for quick actions
 
@@ -60,11 +60,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Output & Storage
 
-- [ ] **OUT-01**: Captures are automatically copied to clipboard
-- [ ] **OUT-02**: Captures are saved to a user-configurable local directory
-- [ ] **OUT-03**: Filename template is configurable (date, time, type patterns)
-- [ ] **OUT-04**: Capture history shows thumbnails with re-share and re-edit options
-- [ ] **OUT-05**: History is searchable and filterable
+- [x] **OUT-01**: Captures are automatically copied to clipboard
+- [x] **OUT-02**: Captures are saved to a user-configurable local directory
+- [x] **OUT-03**: Filename template is configurable (date, time, type patterns)
+- [x] **OUT-04**: Capture history shows thumbnails with re-share and re-edit options
+- [x] **OUT-05**: History is searchable and filterable
 
 ### Utilities
 
@@ -120,10 +120,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FOUND-05 | Phase 1 | Complete |
 | FOUND-06 | Phase 3 | Pending |
 | FOUND-07 | Phase 3 | Pending |
-| CAPT-01 | Phase 2 | Pending |
-| CAPT-02 | Phase 2 | Pending |
-| CAPT-03 | Phase 2 | Pending |
-| CAPT-04 | Phase 2 | Pending |
+| CAPT-01 | Phase 2 | Complete |
+| CAPT-02 | Phase 2 | Complete |
+| CAPT-03 | Phase 2 | Complete |
+| CAPT-04 | Phase 2 | Complete |
 | CAPT-05 | Phase 2 | Pending |
 | CAPT-06 | Phase 2 | Pending |
 | REC-01 | Phase 6 | Pending |
@@ -149,11 +149,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UPLD-06 | Phase 5 | Pending |
 | UPLD-07 | Phase 5 | Pending |
 | UPLD-08 | Phase 5 | Pending |
-| OUT-01 | Phase 2 | Pending |
-| OUT-02 | Phase 2 | Pending |
-| OUT-03 | Phase 2 | Pending |
-| OUT-04 | Phase 2 | Pending |
-| OUT-05 | Phase 2 | Pending |
+| OUT-01 | Phase 2 | Complete |
+| OUT-02 | Phase 2 | Complete |
+| OUT-03 | Phase 2 | Complete |
+| OUT-04 | Phase 2 | Complete |
+| OUT-05 | Phase 2 | Complete |
 | UTIL-01 | Phase 6 | Pending |
 | UTIL-02 | Phase 6 | Pending |
 | UTIL-03 | Phase 6 | Pending |

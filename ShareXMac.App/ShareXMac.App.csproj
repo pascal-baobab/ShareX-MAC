@@ -22,6 +22,9 @@
     <ProjectReference Include="..\ShareXMac.macOS\ShareXMac.macOS.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaResource Include="Assets\tray-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="Info.plist">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

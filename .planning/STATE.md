@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to execute
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-03-25T20:37:59.541Z"
+status: Phase complete — ready for verification
+stopped_at: Completed 02-05-PLAN.md (Tasks 1-2; Task 3 checkpoint pending)
+last_updated: "2026-03-25T20:54:27.584Z"
 progress:
   total_phases: 6
   completed_phases: 1
   total_plans: 8
-  completed_plans: 5
+  completed_plans: 7
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-25)
 ## Current Position
 
 Phase: 02 (core-capture) — EXECUTING
-Plan: 3 of 5
+Plan: 5 of 5
 
 ## Performance Metrics
 
@@ -51,6 +51,9 @@ Plan: 3 of 5
 | Phase 01 P03 | 3min | 3 tasks | 11 files |
 | Phase 02 P01 | 10min | 2 tasks | 12 files |
 | Phase 02 P02 | 4min | 2 tasks | 1 files |
+| Phase 02 P03 | 5min | 2 tasks | 6 files |
+| Phase 02 P04 | 4min | 2 tasks | 9 files |
+| Phase 02 P05 | 4min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -73,6 +76,13 @@ Recent decisions affecting current work:
 - [Phase 02]: CaptureResult sealed record as universal output type for all capture modes
 - [Phase 02]: Extracted CaptureImageToResult shared helper for all 5 capture methods (CGImage->BGRA32->PNG pipeline)
 - [Phase 02]: Lazy<IntPtr> cached CFString keys for CGWindowListCopyWindowInfo dictionary lookups
+- [Phase 02]: SkiaSharp ICustomDrawOperation via ISkiaSharpApiLeaseFeature for overlay rendering (region selector and window picker)
+- [Phase 02]: CGWindowListCopyWindowInfo uses top-left origin (same as Avalonia), no coordinate conversion needed for window picker
+- [Phase 02]: HistoryItemViewModel wrapper pattern: DB record -> lightweight VM with computed Bitmap/display properties for AXAML binding
+- [Phase 02]: ProgressBar control over manual Border width for countdown -- simpler, no custom converter needed
+- [Phase 02]: AppServices sealed record as poor-man's DI container for ICaptureService, IOutputService, ICaptureHistory, IPermissionManager
+- [Phase 02]: TaskCompletionSource pattern bridges overlay CaptureCompleted/Cancelled events to async capture methods in AppViewModel
+- [Phase 02]: Removed XAML Application.DataContext -- code-behind sets DataContext with AppServices constructor injection
 
 ### Pending Todos
 
@@ -90,6 +100,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T20:37:59.538Z
-Stopped at: Completed 02-02-PLAN.md
+Last session: 2026-03-25T20:54:27.582Z
+Stopped at: Completed 02-05-PLAN.md (Tasks 1-2; Task 3 checkpoint pending)
 Resume file: None

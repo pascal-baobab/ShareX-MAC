@@ -55,8 +55,8 @@ Plans:
 Plans:
 - [x] 02-01-PLAN.md — Core data contracts: CaptureMode, CaptureResult, ICaptureService, IOutputService, OutputOptions, ICaptureHistory, CaptureRecord + OutputService and SqliteCaptureHistory implementations
 - [x] 02-02-PLAN.md — ScreenCaptureKitBridge expansion: full ICaptureService implementation with region, window, fullscreen, freeze, and window enumeration
-- [ ] 02-03-PLAN.md — Region selector overlay (SkiaSharp crosshair, selection rect, magnifier) + window picker overlay (highlight, click-to-select)
-- [ ] 02-04-PLAN.md — Capture preview popup (280x80, auto-dismiss) + history view (search, filter, thumbnail grid)
+- [x] 02-03-PLAN.md — Region selector overlay (SkiaSharp crosshair, selection rect, magnifier) + window picker overlay (highlight, click-to-select)
+- [x] 02-04-PLAN.md — Capture preview popup (280x80, auto-dismiss) + history view (search, filter, thumbnail grid)
 - [ ] 02-05-PLAN.md — Integration: wire all capture modes through AppViewModel, TrayIcon menu, HotkeyService, and MainWindow history tab
 **UI hint**: yes
 
@@ -120,7 +120,7 @@ Note: Phases 3, 4, 5, and 6 all depend on Phase 2 but have no dependency on each
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation and App Shell | 3/3 | Complete |  |
-| 2. Core Capture | 0/5 | Planned | - |
+| 2. Core Capture | 2/5 | In Progress|  |
 | 3. Workflow Engine and Hotkeys | 0/? | Not started | - |
 | 4. Annotation Editor and Image Effects | 0/? | Not started | - |
 | 5. Upload Destinations and Sharing | 0/? | Not started | - |

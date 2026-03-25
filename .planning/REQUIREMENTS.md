@@ -23,8 +23,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **CAPT-02**: User can capture a specific application window (with/without shadow)
 - [x] **CAPT-03**: User can capture the full screen (active monitor or all monitors)
 - [x] **CAPT-04**: User can freeze the screen to capture transient UI (tooltips, menus, dropdowns)
-- [ ] **CAPT-05**: Region selector shows crosshair cursor with dimension overlay
-- [ ] **CAPT-06**: Capture preview thumbnail appears after capture for quick actions
+- [x] **CAPT-05**: Region selector shows crosshair cursor with dimension overlay
+- [x] **CAPT-06**: Capture preview thumbnail appears after capture for quick actions
 
 ### Recording
 
@@ -124,8 +124,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CAPT-02 | Phase 2 | Complete |
 | CAPT-03 | Phase 2 | Complete |
 | CAPT-04 | Phase 2 | Complete |
-| CAPT-05 | Phase 2 | Pending |
-| CAPT-06 | Phase 2 | Pending |
+| CAPT-05 | Phase 2 | Complete |
+| CAPT-06 | Phase 2 | Complete |
 | REC-01 | Phase 6 | Pending |
 | REC-02 | Phase 6 | Pending |
 | REC-03 | Phase 6 | Pending |

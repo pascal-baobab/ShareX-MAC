@@ -10,7 +10,8 @@
 
     <TrayIcon.Icons>
         <TrayIcons>
-            <TrayIcon ToolTipText="ShareXMac">
+            <TrayIcon Icon="avares://ShareXMac.App/Assets/tray-icon.png"
+                      ToolTipText="ShareXMac">
                 <TrayIcon.Menu>
                     <NativeMenu>
                         <NativeMenuItem Header="Capture Region"
